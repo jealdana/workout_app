@@ -38,28 +38,35 @@ function App() {
       ...items,
       {
         id: items.length,
-        value: new Date().toJSON().slice(0, 10)
+        value: new Date().toJSON().slice(0, 10),
+        name: "test",
+        calendar: (
+          <Chart
+            width={300}
+            height={400}
+            chartType="Calendar"
+            loader={<div>Loading Chart</div>}
+            data={testData}
+            options={{
+              title: "test"
+            }}
+            rootProps={{ "data-testid": "1" }}
+          />
+        )
       }
     ]);
   };
   return (
     <div>
-      <Chart
-        width={1000}
-        height={400}
-        chartType="Calendar"
-        loader={<div>Loading Chart</div>}
-        data={testData}
-        options={{
-          title: "Wo"
-        }}
-        rootProps={{ "data-testid": "1" }}
-      />
-
       <button onClick={addItem}>Add a number</button>
       <ul>
         {items.map(item => (
-          <li key={item.id}>{item.value}</li>
+          <li key={item.id}>
+            <div className="row">
+              <div className="col">{item.value}</div>
+              <div className="col"></div>
+            </div>
+          </li>
         ))}
       </ul>
     </div>
