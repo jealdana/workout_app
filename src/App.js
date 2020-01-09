@@ -32,14 +32,19 @@ function App() {
   ];
 
   const [items, setItems] = useState([]);
+  const [input,setinput] = useState({value: ''});
 
-  const addItem = () => {
+  const inputHandler = (event) => {
+    setinput({value:event.target.value})
+    console.log(input);
+  };
+  const addItem = (e) => {
+    e.preventDefault();
     setItems([
       ...items,
       {
         id: items.length,
-        value: new Date().toJSON().slice(0, 10),
-        name: "test",
+        name: input.value, //new Date().toJSON().slice(0, 10),
         calendar: (
           <Chart
             width={300}
@@ -48,23 +53,25 @@ function App() {
             loader={<div>Loading Chart</div>}
             data={testData}
             options={{
-              title: "test"
+              title: input.value
             }}
             rootProps={{ "data-testid": "1" }}
           />
-        )
+        ),
+        counter: 0
       }
     ]);
+    setinput({value:''})
   };
   return (
     <div>
-      <button onClick={addItem}>Add a number</button>
+      <form action=""><input type="text" value={input.value} onChange={inputHandler} placeholder='type here'/> <input type="submit" value="submit" onClick={addItem}/></form>
       <ul>
         {items.map(item => (
           <li key={item.id}>
             <div className="row">
-              <div className="col">{item.value}</div>
-              <div className="col"></div>
+              <div className="col">{item.name}</div>
+              <div className="col">{item.calendar}</div>
             </div>
           </li>
         ))}
