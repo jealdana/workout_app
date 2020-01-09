@@ -35,16 +35,15 @@ function App() {
   const [input,setinput] = useState({value: ''});
 
   const inputHandler = (event) => {
-    setinput({value:event.target.value})
-    console.log(input);
+    setinput({value:event.target.value});
   };
   const addItem = (e) => {
     e.preventDefault();
     setItems([
       ...items,
       {
-        id: items.length,
-        name: input.value, //new Date().toJSON().slice(0, 10),
+        id: new Date(),
+        name: input.value, //,
         calendar: (
           <Chart
             width={300}
@@ -63,6 +62,15 @@ function App() {
     ]);
     setinput({value:''})
   };
+  const addCounterItem = (id) => {
+    var newList = items.map(item => {
+      if (item.id === id) {
+        item.counter ++;
+      }
+      return item;
+    })
+    setItems([...newList])
+  };
   return (
     <div>
       <form action=""><input type="text" value={input.value} onChange={inputHandler} placeholder='type here'/> <input type="submit" value="submit" onClick={addItem}/></form>
@@ -70,7 +78,9 @@ function App() {
         {items.map(item => (
           <li key={item.id}>
             <div className="row">
-              <div className="col">{item.name}</div>
+              <div className="col" onClick={e => addCounterItem(item.id)}>
+              {item.name} - {item.counter}
+              </div>
               <div className="col">{item.calendar}</div>
             </div>
           </li>
